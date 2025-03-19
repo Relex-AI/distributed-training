@@ -1,0 +1,128 @@
+{
+  "project": {
+    "name": "Relex.AI",
+    "description": "Modelo de IA multimodal para programação",
+    "version": "0.1.0"
+  },
+  "infrastructure": {
+    "master_ip": "0.0.0.0",
+    "master_port": 12345,
+    "worker_port": 12346,
+    "communication_protocol": "grpc",
+    "max_workers": 100,
+    "master_storage_path": "./storage/model",
+    "connection_timeout": 60,
+    "heartbeat_interval": 10,
+    "remote_access": {
+      "enable_ssh": true,
+      "enable_rdp": true,
+      "enable_vnc": true,
+      "enable_spice": true
+    },
+    "platforms": {
+      "colab": {
+        "enabled": true,
+        "connect_url": "https://colab.research.google.com/notebooks/",
+        "setup_script": "scripts/setup_colab.py"
+      },
+      "kaggle": {
+        "enabled": true,
+        "connect_url": "https://www.kaggle.com/",
+        "setup_script": "scripts/setup_kaggle.py"
+      }
+    }
+  },
+  "training": {
+    "model_type": "transformer",
+    "model_size": "medium",
+    "batch_size": 4,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 5e-5,
+    "weight_decay": 0.01,
+    "warmup_steps": 1000,
+    "epochs": 3,
+    "save_steps": 10000,
+    "evaluation_steps": 5000,
+    "max_seq_length": 1024,
+    "fp16": false,
+    "distributed": true,
+    "resume_from_checkpoint": null,
+    "optimizer": "adamw",
+    "scheduler": "linear",
+    "max_grad_norm": 1.0,
+    "tokenizer": {
+      "vocab_size": 50000,
+      "min_frequency": 2,
+      "special_tokens": ["<pad>", "<unk>", "<s>", "</s>", "<mask>"]
+    },
+    "model": {
+      "hidden_size": 768,
+      "num_hidden_layers": 12,
+      "num_attention_heads": 12,
+      "intermediate_size": 3072,
+      "hidden_dropout_prob": 0.1,
+      "attention_probs_dropout_prob": 0.1,
+      "initializer_range": 0.02,
+      "layer_norm_eps": 1e-12,
+      "output_tokens": 300000000,
+      "input_tokens": 100000000
+    }
+  },
+  "data": {
+    "datasets": [
+      "bigcode/the-stack-v2",
+      "stanford-oval/ccnews",
+      "gsdf/EasyNegative",
+      "HuggingFaceFV/finevideo",
+      "amphion/Emilia-Dataset",
+      "unitreerobotics/LAFAN1_Retargeting_Dataset"
+    ],
+    "storage_limit_gb": 300,
+    "model_storage_limit_gb": 500,
+    "data_dir": "./storage/data",
+    "processing": {
+      "num_proc": 8,
+      "max_tokens": 1024,
+      "shuffle": true,
+      "shard_size": 1000
+    },
+    "languages": [
+      "python", "cpp", "java", "javascript", "go", "rust", "php", "ruby",
+      "csharp", "typescript", "bash", "html", "css", "sql", "markdown"
+    ]
+  },
+  "hardware": {
+    "min_cpu_cores": 4,
+    "min_ram_gb": 16,
+    "max_cpu_usage_percent": 80,
+    "max_ram_usage_percent": 85,
+    "optimize_for_cpu": true,
+    "use_mps": false
+  },
+  "multimodal": {
+    "enabled": true,
+    "vision": {
+      "enable_image_processing": true,
+      "enable_video_processing": true,
+      "image_size": 224,
+      "channels": 3
+    },
+    "3d": {
+      "enable_3d_processing": true,
+      "max_vertices": 50000000,
+      "max_bones": 100000,
+      "texture_resolution": 4096
+    },
+    "audio": {
+      "enable_audio_processing": true,
+      "sample_rate": 16000,
+      "channels": 1
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "save_to_file": true,
+    "log_dir": "./logs",
+    "log_progress_interval": 100
+  }
+} 
